@@ -284,7 +284,8 @@ CanvasView.inject(new function() {
     }
 
     var fs = require('fs');
-
+    var img_to_lcd = require('png-to-lcd').img_to_lcd;
+    
     return {
         // DOCS: CanvasView#exportFrames(param);
         exportFrames: function(param) {
@@ -306,7 +307,7 @@ CanvasView.inject(new function() {
             exportFrame(param);
 
             function exportFrame(param) {
-                var filename = param.prefix + toPaddedString(count, 6) + '.png',
+                var filename = param.prefix + toPaddedString(count, 6) + '.buf',
                     path = param.directory + '/' + filename;
                 var out = view.exportImage(path, function() {
                     // When the file has been closed, export the next fame:
@@ -344,14 +345,25 @@ CanvasView.inject(new function() {
         // DOCS: CanvasView#exportImage(path, callback);
         exportImage: function(path, callback) {
             this.draw();
-            var out = fs.createWriteStream(path),
-                stream = this._element.createPNGStream();
-            // Pipe the png stream to the write stream:
-            stream.pipe(out);
-            if (callback) {
-                out.on('close', callback);
+            var width = 128;
+            var height = 64;
+            var fromDepth = 4;
+            var toDepth = 2;
+
+            var imageData = this._context.getImageData(0, 0, width, height);
+            var buff = new Buffer(width * height * toDepth)
+            
+            for (var column = 0; column < width; column++) {
+                for (var row = 0; row < height; row++) {
+                    var redComponentIndex = ((row*(width*fromDepth)) + (column*fromDepth))
+                    var redComponent = imageData.data[redComponentIndex]
+                    
+                    buff.writeUInt16LE(redComponent, redComponentIndex/2 )
+                }
             }
-            return out;
+            fs.writeFile(path, buff, function(err) {
+                callback(err);
+            });
         }
     };
 });

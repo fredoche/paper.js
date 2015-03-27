@@ -1,8 +1,8 @@
 var paper = require('paper');
-var scope = require('./Tadpoles.pjs')(new paper.Size(1024, 768));
+var scope = require('./Tadpoles.pjs')(new paper.Size(128, 64));
 
 scope.view.exportFrames({
-    amount: 400,
+    amount: 1000,
     directory: __dirname,
     onComplete: function() {
         console.log('Done exporting.');

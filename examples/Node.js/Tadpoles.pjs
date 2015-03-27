@@ -255,7 +255,7 @@ var mouseDown = false;
 var boids = [];
 
 // Add the boids:
-for (var i = 0; i < 300; i++) {
+for (var i = 0; i < 4; i++) {
 	var position = view.center;
 	boids.push(new Boid(position, 10, 0.05));
 }

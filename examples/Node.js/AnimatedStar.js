@@ -1,11 +1,11 @@
 var paper = require('paper');
-paper.setup(new paper.Canvas(1024, 768));
+paper.setup(new paper.Canvas(128, 64));
 
 var layer = paper.project.activeLayer;
 
 var values = {
-    count: 34,
-    points: 32
+    count: 10,
+    points: 10
 };
 
 initialize();
@@ -43,7 +43,7 @@ function initialize() {
 paper.view.onFrame = function(event) {
     for (var i = 0, l = layer.children.length; i < l; i++) {
         var item = layer.children[i];
-        var angle = (values.count - i) * Math.sin(event.count / 128) / 10;
+        var angle = (values.count - i) * Math.sin(event.count / 128) *2 ;
         item.rotate(angle);
     }
 }
