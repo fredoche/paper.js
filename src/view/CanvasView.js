@@ -284,8 +284,7 @@ CanvasView.inject(new function() {
     }
 
     var fs = require('fs');
-    var img_to_lcd = require('png-to-lcd').img_to_lcd;
-    
+
     return {
         // DOCS: CanvasView#exportFrames(param);
         exportFrames: function(param) {
@@ -359,11 +358,21 @@ CanvasView.inject(new function() {
                     var redComponent = imageData.data[redComponentIndex]
                     
                     buff.writeUInt16LE(redComponent, redComponentIndex/2 )
-                }
             }
+        }
             fs.writeFile(path, buff, function(err) {
                 callback(err);
             });
+            
+//            this.draw();
+//            var out = fs.createWriteStream(path),
+//                stream = this._element.createPNGStream();
+//            // Pipe the png stream to the write stream:
+//            stream.pipe(out);
+//            if (callback) {
+//                out.on('close', callback);
+//            }
+//            return out;
         }
     };
 });

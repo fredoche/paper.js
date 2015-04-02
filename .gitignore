@@ -1,1 +1,7 @@
 .DS_Store
+/examples/raadioMenu/nbproject/private/
+/nbproject/private/
+examples/Node.js/frame-*
+node_modules/tween.js/
+nbproject/
+dist/*
