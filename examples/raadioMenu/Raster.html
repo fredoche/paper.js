@@ -1,0 +1,141 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Raster</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <script type="text/javascript" src="../../dist/paper-full.js"></script>
+        <script src="../../../tween.js/build/tween.min.js"></script>
+        <script type="text/javascript">
+            paper.install(window);
+            window.onload = function () {
+                /* global paper */
+                /* global TWEEN */
+                // Get a reference to the canvas object
+                console.log(new Date());
+                var canvas = document.getElementById('myCanvas');
+                // Create an empty project and a view for the canvas:
+                paper.setup(canvas);
+                var view = paper.view;
+                var nova = new Raster({
+                    source: 'file:///home/fred/rpi/paper.js/examples/raadioMenu/nova.png',
+                    position: view.center
+                });
+
+                var inter = new Raster({
+                    source: 'file:///home/fred/rpi/paper.js/examples/raadioMenu/inter.png',
+                    position: view.center.add(128, 0)
+                });
+
+//                console.log(nova.width)
+//                console.log(inter.width)
+
+//console.log('scale:', 100 / nova.width)
+
+//                nova.scale(100 / nova.width);
+//                nova.scale(100 / nova.width);
+//                nova.scale(100 / nova.width);
+//                inter.scale(Math.min(100 / inter.width, 100 / inter.height));
+
+                console.log(nova.width)
+//                console.log(inter.width)
+
+                var tweenNova = new TWEEN.Tween({x: nova.position.x})
+                        .to({x: inter.position.x}, 2000)
+                        .onUpdate(function () {
+                            nova.position.x = this.x
+                        })
+//                        .easing( TWEEN.Easing.Elastic.InOut )
+                        .start()
+
+                var tweenInter = new TWEEN.Tween({x: inter.position.x})
+                        .to({x: nova.position.x}, 2000)
+                        .onUpdate(function () {
+                            inter.position.x = this.x
+                        })
+//                        .easing( TWEEN.Easing.Elastic.InOut )
+                        .start()
+
+
+                var rectangle = new Rectangle(new Point(0, 0), new Point(128, 64));
+                var path = new Path.Rectangle(rectangle);
+                path.fillColor = '#e9e9ff';
+                path.selected = true;
+
+                var animDuration = 2000;
+                var fps = 10;
+
+                var nbFrames = animDuration * fps / 1000;
+
+                var keys = [];
+
+                for (var i = 0; i < nbFrames; i++) {
+                    keys.push(i * fps * 10);
+                }
+
+                console.log(keys)
+
+                var currentKeyIndex = 0;
+
+                new Tool().onKeyDown = function (event) {
+                    console.log(event.key)
+                    if (event.key == 'space' && currentKeyIndex > 0) {
+                        currentKeyIndex--
+                    }
+                    if (event.key == 'a' && currentKeyIndex < nbFrames) {
+                        currentKeyIndex++;
+                    }
+                }
+
+                view.onFrame = function (event) {
+                    // On each frame, rotate the path by 3 degrees:
+//                    path.rotate(3);
+//                    console.log(keys[currentKeyIndex])
+                    TWEEN.update(keys[currentKeyIndex])
+                }
+
+                paper.view.draw();
+            }
+        </script>
+
+    </head>
+    <body>
+        <div id="info">
+            <h1><a href="http://github.com/sole/tween.js">tween.js</a></h1>
+            <h2>04 _ simplest possible example</h2>
+            <p>Creating a tween and doing little else apart from that :)</p>
+        </div>
+        <script>
+//            init();
+//            animate();
+//
+//            function init() {
+//
+//                var output = document.createElement('div');
+//                output.style.cssText = 'position: absolute; left: 50px; top: 300px; font-size: 100px';
+//                document.body.appendChild(output);
+//                var tween = new TWEEN.Tween({x: 50, y: 0})
+//                        .to({x: 400}, 2000)
+//                        .easing(TWEEN.Easing.Elastic.InOut)
+//                        .onUpdate(function () {
+//
+//                            output.innerHTML = 'x == ' + Math.round(this.x);
+//                            var transform = 'translateX(' + this.x + 'px)';
+//                            output.style.webkitTransform = transform;
+//                            output.style.transform = transform;
+//                        })
+//                        .start();
+//            }
+//
+//            function animate(time) {
+//
+//                requestAnimationFrame(animate);
+//                TWEEN.update(time);
+//            }
+
+        </script>
+        <canvas id="myCanvas" resize width="128" height="64"></canvas>
+    </body>
+</html>
