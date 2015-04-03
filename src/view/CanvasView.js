@@ -284,10 +284,13 @@ CanvasView.inject(new function() {
     }
 
     var fs = require('fs');
+    
+    var sequence = 0;
 
     return {
         // DOCS: CanvasView#exportFrames(param);
         exportFrames: function(param) {
+            sequence++;
             param = new Base({
                 fps: 20,
                 prefix: 'frame-',
