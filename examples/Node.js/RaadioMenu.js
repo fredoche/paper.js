@@ -28,12 +28,12 @@ function initialize() {
     var offscreen = paper.view.center.add(128, 0)
 
     var nova = new paper.Raster({
-        source: '/home/fred/rpi/paper.js/examples/raadioMenu/nova.png',
+        source: '/root/rpi/paper.js/examples/raadioMenu/nova.png',
         position: offscreen
     });
 
     var inter = new paper.Raster({
-        source: '/home/fred/rpi/paper.js/examples/raadioMenu/inter.png',
+        source: '/root/rpi/paper.js/examples/raadioMenu/inter.png',
         position: offscreen //off-screen but loaded
     });
 

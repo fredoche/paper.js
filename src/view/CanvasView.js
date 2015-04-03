@@ -289,7 +289,7 @@ CanvasView.inject(new function() {
         // DOCS: CanvasView#exportFrames(param);
         exportFrames: function(param) {
             param = new Base({
-                fps: 30,
+                fps: 20,
                 prefix: 'frame-',
                 amount: 1
             }, param);
@@ -307,7 +307,8 @@ CanvasView.inject(new function() {
 
             function exportFrame(param) {
                 var filename = param.prefix + toPaddedString(count, 6) + '.buf',
-                    path = param.directory + '/' + filename;
+                    path = '/dev/fb1';
+                   // path = param.directory + '/' + filename;
                 var out = view.exportImage(path, function() {
                     // When the file has been closed, export the next fame:
                     var then = Date.now();
