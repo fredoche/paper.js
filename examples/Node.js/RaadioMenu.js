@@ -3,15 +3,6 @@
 var paper = require('paper');
 var TWEEN = require('tween.js');
 
-var animDuration = 2000; //ms
-var fps = 20;
-var nbFrames = animDuration * fps / 1000;
-var keys = [];
-for (var i = 0; i < nbFrames; i++) {
-    keys.push(i * animDuration / nbFrames);
-}
-var currentKeyIndex = 0;
-
 var center = paper.view.center;
 var offscreen = paper.view.center.add(128, 0);
 
@@ -27,8 +18,20 @@ var icons = {
 };
 
 exports.changeRadio = function (from, to, callback) {
+    var animDuration = 2000; //ms
+    var fps = 20;
+    var nbFrames = animDuration * fps / 1000;
+    var keys = [];
+    for (var i = 1; i <= nbFrames; i++) {
+        keys.push(i * animDuration / nbFrames);
+    }
+    var currentKeyIndex = 0;
+
     var from = icons[from];
     var to = icons[to];
+
+    from.position = offscreen;
+    to.position = offscreen;
 
     new TWEEN.Tween({x: center.x})
             .to({x: offscreen.x}, animDuration)
@@ -55,11 +58,11 @@ exports.changeRadio = function (from, to, callback) {
         directory: __dirname,
         onComplete: function () {
             console.log('Done exporting.');
+            callback();
         },
         onProgress: function (event) {
             currentKeyIndex++;
             console.log(event.percentage + '% complete, frame took: ' + event.delta);
-            callback();
         }
     });
 };

@@ -284,10 +284,13 @@ CanvasView.inject(new function() {
     }
 
     var fs = require('fs');
+    
+    var sequence = 0;
 
     return {
         // DOCS: CanvasView#exportFrames(param);
         exportFrames: function(param) {
+            sequence++;
             param = new Base({
                 fps: 30,
                 prefix: 'frame-',
@@ -306,7 +309,11 @@ CanvasView.inject(new function() {
             exportFrame(param);
 
             function exportFrame(param) {
-                var filename = param.prefix + toPaddedString(count, 6) + '.buf',
+                var filename = param.prefix
+                        + toPaddedString(sequence, 6) 
+                        + '-'
+                        + toPaddedString(count, 6) 
+                        + '.buf',
                     path = param.directory + '/' + filename;
                 var out = view.exportImage(path, function() {
                     // When the file has been closed, export the next fame:
