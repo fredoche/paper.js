@@ -30,7 +30,7 @@ exports.changeRadio = function (from, to, callback) {
     var from = icons[from];
     var to = icons[to];
 
-    from.position = offscreen;
+    from.position = center;
     to.position = offscreen;
 
     new TWEEN.Tween({x: center.x})
