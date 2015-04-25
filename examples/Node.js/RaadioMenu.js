@@ -8,11 +8,11 @@ var offscreen = paper.view.center.add(128, 0);
 
 var icons = {
     nova: new paper.Raster({
-        source: '/root/rpi/paper.js/examples/raadioMenu/nova.png',
+        source: __dirname + '/../raadioMenu/nova.png',
         position: offscreen
     }),
     inter: new paper.Raster({
-        source: '/root/rpi/paper.js/examples/raadioMenu/inter.png',
+        source: __dirname + '/../raadioMenu/inter.png',
         position: offscreen //off-screen but loaded
     })
 };
