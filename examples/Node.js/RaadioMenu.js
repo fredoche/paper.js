@@ -11,7 +11,19 @@ var icons = {
         source: '/home/fred/rpi/paper.js/examples/raadioMenu/nova.png',
         position: offscreen
     }),
+    fip: new paper.Raster({
+        source: '/home/fred/rpi/paper.js/examples/raadioMenu/inter.png',
+        position: offscreen //off-screen but loaded
+    }),
     inter: new paper.Raster({
+        source: '/home/fred/rpi/paper.js/examples/raadioMenu/inter.png',
+        position: offscreen //off-screen but loaded
+    }),
+    radiomeuh: new paper.Raster({
+        source: '/home/fred/rpi/paper.js/examples/raadioMenu/inter.png',
+        position: offscreen //off-screen but loaded
+    }),
+    ouifm: new paper.Raster({
         source: '/home/fred/rpi/paper.js/examples/raadioMenu/inter.png',
         position: offscreen //off-screen but loaded
     })
