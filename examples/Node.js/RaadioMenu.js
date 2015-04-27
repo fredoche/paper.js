@@ -12,7 +12,7 @@ var icons = {
         position: offscreen
     }),
     fip: new paper.Raster({
-        source: '/home/fred/rpi/paper.js/examples/raadioMenu/inter.png',
+        source: '/home/fred/rpi/paper.js/examples/raadioMenu/fip.png',
         position: offscreen //off-screen but loaded
     }),
     inter: new paper.Raster({
@@ -20,11 +20,11 @@ var icons = {
         position: offscreen //off-screen but loaded
     }),
     radiomeuh: new paper.Raster({
-        source: '/home/fred/rpi/paper.js/examples/raadioMenu/inter.png',
+        source: '/home/fred/rpi/paper.js/examples/raadioMenu/radiomeuh.png',
         position: offscreen //off-screen but loaded
     }),
     ouifm: new paper.Raster({
-        source: '/home/fred/rpi/paper.js/examples/raadioMenu/inter.png',
+        source: '/home/fred/rpi/paper.js/examples/raadioMenu/ouifm.png',
         position: offscreen //off-screen but loaded
     })
 };
