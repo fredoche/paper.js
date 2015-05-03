@@ -12,39 +12,44 @@ var stations = {
 var amqp = require('amqplib');
 amqp.connect('amqp://guest1:guest1@192.168.1.13').then(function (conn) {
     var sessionBus = dbus.sessionBus();
-
     process.once('SIGINT', function () {
         conn.close();
     });
+
     return conn.createChannel().then(function (ch) {
-        var ok = ch.assertQueue('station', {durable: false, autoDelete: true});
-        ok = ok.then(function (_qok) {
-            return ch.consume('station', function (msg) {
-                console.log(" [x] Received '%s'", msg.content.toString());
-                console.log(msg.content.toString())
-                sessionBus
-                        .getService('com.intel.dleyna-renderer')
-                        .getInterface(
-                                process.env.ENDPOINT,
-                                'org.mpris.MediaPlayer2.Player',
-                                function (err, player) {
+        function doWithQueue(queue, callback) {
+            var ok = ch.assertQueue(queue, {durable: false, autoDelete: true});
+            ok = ok.then(function (_qok) {
+                return ch.consume(queue, function (msg) {
+                    console.log(" [x] Received '%s'", msg.content.toString());
+                    console.log(msg.content.toString());
+                    sessionBus
+                            .getService('com.intel.dleyna-renderer')
+                            .getInterface(
+                                    process.env.ENDPOINT,
+                                    'org.mpris.MediaPlayer2.Player',
+                                    function (err, player) {
+                                        callback(player, msg)
+                                    }
+                            );
+                }, {noAck: true});
+            });
+            return ok.then(function (_consumeOk) {
+                console.log(
+                        ' [*] Waiting for messages from queue '
+                        + queue
+                        + ' . To exit press CTRL+C');
+            });
+        }
 
-                                    // dbus signals are EventEmitter events
-//    player.on('ActionInvoked', function() {
-//        console.log('ActionInvoked', arguments);
-//    });
-//    player.on('NotificationClosed', function() {
-//        console.log('NotificationClosed', arguments);
-//    });
-                                    player.OpenUri(stations[msg.content.toString()])
-
-//    player.PlayPause();
-                                });
-            }, {noAck: true});
+        doWithQueue('station', function (player, msg) {
+            player.OpenUri(stations[msg.content.toString()]);
         });
 
-        return ok.then(function (_consumeOk) {
-            console.log(' [*] Waiting for messages. To exit press CTRL+C');
+        doWithQueue('playPause', function (player, msg) {
+            player.PlayPause();
         });
+
+
     });
 });
