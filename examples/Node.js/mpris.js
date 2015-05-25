@@ -18,7 +18,7 @@ amqp.connect('amqp://guest1:guest1@192.168.1.13').then(function (conn) {
 
     return conn.createChannel().then(function (ch) {
         function doWithQueue(queue, callback) {
-            var ok = ch.assertQueue(queue, {durable: false, autoDelete: true});
+            var ok = ch.assertQueue(queue, {durable: false, autoDelete: false});
             ok = ok.then(function (_qok) {
                 return ch.consume(queue, function (msg) {
                     console.log(" [x] Received '%s'", msg.content.toString());
