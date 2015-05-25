@@ -37,7 +37,8 @@ exports.intro = function (callback) {
         amount: nbFrames,
         directory: __dirname,
         onComplete: function () {
-            console.log('Done exporting.');
+            console.log('Done exporting. INTRO');
+            logo.remove();
 //            paper.project.activeLayer.removeChildren();
             callback(undefined, 'ok');
         },
