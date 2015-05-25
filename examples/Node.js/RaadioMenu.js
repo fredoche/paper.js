@@ -70,7 +70,7 @@ exports.changeRadio = function (from, to, callback) {
         directory: __dirname,
         onComplete: function () {
             console.log('Done exporting.');
-            callback();
+            callback(undefined, "ok");
         },
         onProgress: function (event) {
             currentKeyIndex++;
