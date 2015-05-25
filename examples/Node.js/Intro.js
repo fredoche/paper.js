@@ -21,10 +21,10 @@ exports.intro = function (callback) {
     }
     var currentKeyIndex = 0;
 
-    new TWEEN.Tween({x: topscreen.x})
-            .to({x: center.x}, animDuration)
+    new TWEEN.Tween({y: topscreen.y})
+            .to({y: center.y}, animDuration)
             .onUpdate(function () {
-                logo.position.x = this.x;
+                logo.position.y = this.y;
             })
             .easing(TWEEN.Easing.Bounce.Out)
             .start(0);
@@ -38,7 +38,7 @@ exports.intro = function (callback) {
         directory: __dirname,
         onComplete: function () {
             console.log('Done exporting.');
-            paper.project.activeLayer.removeChildren();
+//            paper.project.activeLayer.removeChildren();
             callback(undefined, 'ok');
         },
         onProgress: function (event) {
