@@ -1,5 +1,8 @@
 /* global process */
 var dbus = require('dbus-native');
+/* faut attendre que rabbitmq soit démarré, et on va le faire
+ en attendant qu'il écoute son port 5672. */
+var portscanner = require('portscanner');
 
 var stations = {
     nova: 'http://broadcast.infomaniak.net/radionova-high.mp3',
@@ -10,7 +13,16 @@ var stations = {
 };
 
 var amqp = require('amqplib');
-amqp.connect('amqp://guest1:guest1@192.168.1.13').then(function (conn) {
+function connect(callback) {
+    amqp.connect('amqp://guest1:guest1@192.168.1.13')
+            .then(callback)
+            .catch(function (err) {
+                console.log("rabbitmq not started, retry in few seconds");
+                setTimeout(connect, 1000);
+            });
+}
+
+connect(function (conn) {
     var sessionBus = dbus.sessionBus();
     process.once('SIGINT', function () {
         conn.close();
@@ -29,7 +41,7 @@ amqp.connect('amqp://guest1:guest1@192.168.1.13').then(function (conn) {
                                     process.env.ENDPOINT,
                                     'org.mpris.MediaPlayer2.Player',
                                     function (err, player) {
-                                        callback(player, msg)
+                                        callback(player, msg);
                                     }
                             );
                 }, {noAck: true});
