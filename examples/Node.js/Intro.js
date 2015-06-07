@@ -7,7 +7,7 @@ var center = paper.view.center;
 var topscreen = paper.view.center.add(0, 64);
 
 var logo = new paper.Raster({
-    source: '/home/fred/rpi/paper.js/examples/raadioMenu/logo_raadio_BN.png',
+    source: '/home/raadio/rpi/paper.js/examples/raadioMenu/logo_raadio_BN.png',
     position: topscreen
 });
 
