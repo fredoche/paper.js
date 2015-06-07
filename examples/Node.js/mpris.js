@@ -17,8 +17,10 @@ function connect(callback) {
     amqp.connect('amqp://guest1:guest1@192.168.1.13')
             .then(callback)
             .catch(function (err) {
-                console.log("rabbitmq not started, retry in few seconds");
-                setTimeout(connect, 1000);
+                console.log("rabbitmq not started, retry in few seconds", err);
+                setTimeout(function () {
+                    connect(callback);
+                }, 5000);
             });
 }
 
@@ -61,7 +63,5 @@ connect(function (conn) {
         doWithQueue('playPause', function (player, msg) {
             player.PlayPause();
         });
-
-
     });
 });
